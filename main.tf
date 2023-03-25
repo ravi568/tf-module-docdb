@@ -1,5 +1,5 @@
 resource "aws_docdb_cluster" "main" {
-  cluster_identifier      = "${var-env}-docdb"
+  cluster_identifier      = "${var.env}-docdb"
   engine                  = var.engine
   engine_version          = var.engine_version
   master_username         = data.aws_ssm_parameter.user.value
@@ -14,13 +14,13 @@ resource "aws_docdb_cluster" "main" {
 
 resource "aws_docdb_cluster_instance" "cluster_instances" {
   count              = var.no_of_instances
-  identifier         = "${var-env}-docdb-${count.index}"
+  identifier         = "${var.env}-docdb-${count.index}"
   cluster_identifier = aws_docdb_cluster.main.id
   instance_class     = var.instance_class
 }
 
 resource "aws_docdb_subnet_group" "main" {
-  name       = "${var-env}-docdb"
+  name       = "${var.env}-docdb"
   subnet_ids = var.subnet_ids
 
   tags = merge(
