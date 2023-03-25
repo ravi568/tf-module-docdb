@@ -12,7 +12,7 @@ resource "aws_docdb_cluster" "main" {
   storage_encrypted = var.storage_encrypted
 }
 
-resource "aws_docdb_cluster_instance" "cluster_instances" {
+resource "aws_docdb_cluster_instance" "main" {
   count              = var.no_of_instances
   identifier         = "${var.env}-docdb-${count.index}"
   cluster_identifier = aws_docdb_cluster.main.id
