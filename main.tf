@@ -58,6 +58,7 @@ resource "aws_docdb_subnet_group" "main" {
   )
 }
 
+
 resource "aws_ssm_parameter" "docdb_url_catalogue" {
   name  = "${var.env}.docdb.url.catalogue"
   type = "String"
