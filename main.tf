@@ -7,10 +7,10 @@ resource "aws_docdb_cluster" "main" {
   backup_retention_period = var.backup_retention_period
   preferred_backup_window = var.preferred_backup_window
   skip_final_snapshot     = var.skip_final_snapshot
-  db_subnet_group_name    = aws_docdb_subnet_group.main.name
-  kms_key_id              = data.aws_kms_key.key.arn
-  storage_encrypted       = var.storage_encrypted
-  vpc_security_group_ids  = [aws_security_group.main.id]
+  db_subnet_group_name = aws_docdb_subnet_group.main.name
+  kms_key_id = data.aws_kms_key.key.arn
+  storage_encrypted = var.storage_encrypted
+  vpc_security_group_ids = [aws_security_group.main.id]
 }
 
 resource "aws_docdb_cluster_instance" "cluster_instances" {
@@ -24,6 +24,7 @@ resource "aws_security_group" "main" {
   name        = "docdb-${var.env}"
   description = "docdb-${var.env}"
   vpc_id      = var.vpc_id
+
 
   ingress {
     description = "DOCDB"
@@ -40,13 +41,12 @@ resource "aws_security_group" "main" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-
   tags = merge(
     var.tags,
     { Name = "docdb-${var.env}" }
   )
-}
 
+}
 
 resource "aws_docdb_subnet_group" "main" {
   name       = "${var.env}-docdb"
@@ -54,9 +54,10 @@ resource "aws_docdb_subnet_group" "main" {
 
   tags = merge(
     var.tags,
-    { Name = "${var.env}-subnet-group" }
+    {Name = "${var.env}-subnet-group"}
   )
 }
+
 
 resource "aws_ssm_parameter" "docdb_url_catalogue" {
   name  = "${var.env}.docdb.url.catalogue"
